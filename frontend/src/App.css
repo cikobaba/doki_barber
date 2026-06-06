@@ -119,6 +119,11 @@ a {
   position: relative;
 }
 
+.navMenu a:hover,
+.footer nav a:hover {
+  color: var(--gold-light);
+}
+
 .navMenu a.active::after {
   content: "";
   position: absolute;
@@ -140,7 +145,7 @@ a {
   font-size: 25px;
 }
 
-.navActions button {
+.navBookButton {
   background: transparent;
   color: var(--text);
   border: 1px solid var(--gold);
@@ -148,7 +153,12 @@ a {
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 800;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.navBookButton:hover {
+  background: rgba(196, 147, 70, 0.12);
 }
 
 /* HERO */
@@ -250,6 +260,9 @@ a {
 }
 
 .goldBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, #bc8438, #e8bd72);
   color: #16100a;
   border: none;
@@ -259,6 +272,7 @@ a {
   letter-spacing: 3px;
   font-weight: 900;
   cursor: pointer;
+  text-decoration: none;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
@@ -267,6 +281,9 @@ a {
 }
 
 .textBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   color: var(--text);
@@ -274,6 +291,7 @@ a {
   letter-spacing: 3px;
   font-weight: 900;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .textBtn b {
@@ -473,6 +491,122 @@ a {
   width: 100%;
 }
 
+/* BOOKING FORM */
+
+.bookingFormSection {
+  width: 100%;
+  padding: 80px 6.2vw;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
+  background:
+          radial-gradient(circle at top right, rgba(196, 147, 70, 0.12), transparent 32%),
+          linear-gradient(180deg, #080808, #111111);
+  border-bottom: 1px solid var(--line);
+}
+
+.bookingFormIntro {
+  border-left: 2px solid var(--gold);
+  padding-left: 28px;
+}
+
+.miniLabel {
+  margin: 0 0 16px;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.bookingFormIntro h3 {
+  margin: 0;
+  color: #ffffff;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: clamp(42px, 4vw, 68px);
+  line-height: 1;
+}
+
+.bookingFormIntro p {
+  max-width: 480px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.bookingForm {
+  padding: 36px;
+  background:
+          linear-gradient(135deg, rgba(196, 147, 70, 0.08), transparent),
+          rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(196, 147, 70, 0.28);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.bookingForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.bookingForm input,
+.bookingForm select,
+.bookingForm textarea {
+  width: 100%;
+  border: 1px solid rgba(196, 147, 70, 0.28);
+  background: #070707;
+  color: #ffffff;
+  padding: 15px 16px;
+  outline: none;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.bookingForm input::placeholder,
+.bookingForm textarea::placeholder {
+  color: rgba(245, 240, 233, 0.45);
+}
+
+.bookingForm input:focus,
+.bookingForm select:focus,
+.bookingForm textarea:focus {
+  border-color: var(--gold-light);
+  box-shadow: 0 0 0 3px rgba(196, 147, 70, 0.12);
+}
+
+.bookingForm textarea {
+  margin-top: 18px;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.bookingSubmit {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.successMessage {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(196, 147, 70, 0.35);
+  background: rgba(196, 147, 70, 0.1);
+  color: #f5f0e9;
+  line-height: 1.6;
+}
+
 /* SMART + FOOTER */
 
 .smartStrip {
@@ -560,7 +694,8 @@ a {
 
   .middleGrid,
   .bookingStrip,
-  .smartStrip {
+  .smartStrip,
+  .bookingFormSection {
     grid-template-columns: 1fr;
   }
 
@@ -585,6 +720,18 @@ a {
   .contactBox,
   .bookBox {
     padding: 28px 24px;
+  }
+
+  .bookingFormSection {
+    padding: 48px 24px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bookingForm {
+    padding: 24px;
   }
 
   .footer {
