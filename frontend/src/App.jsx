@@ -1,6 +1,7 @@
 import './App.css'
-import heroImage from './assets/shop/waiting-area.jpeg'
-import barberStationsImage from './assets/shop/barber-stations.jpeg'
+import BookingForm from './components/BookingForm'
+import heroImage from './assets/shop/barber-stations.jpeg'
+import waitingAreaImage from './assets/shop/waiting-area.jpeg'
 import singleChairImage from './assets/shop/single-chair.jpeg'
 
 const services = [
@@ -54,12 +55,12 @@ function App() {
                 <div className="navActions">
                     <span className="socialIcon">◎</span>
                     <span className="socialIcon">☏</span>
-                    <button>Book Now</button>
+                    <a className="navBookButton" href="#booking">Book Now</a>
                 </div>
             </header>
 
             <section id="home" className="heroPanel">
-                <img src={heroImage} alt="Master Sharli Barber Shop waiting area" />
+                <img src={heroImage} alt="Master Sharli Barber Shop main stations" />
 
                 <div className="heroOverlay" />
 
@@ -80,8 +81,13 @@ function App() {
                     </p>
 
                     <div className="heroButtons">
-                        <button className="goldBtn">Book Appointment <b>→</b></button>
-                        <button className="textBtn">View Services <b>—</b></button>
+                        <a className="goldBtn" href="#booking">
+                            Book Appointment <b>→</b>
+                        </a>
+
+                        <a className="textBtn" href="#services">
+                            View Services <b>—</b>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -112,11 +118,11 @@ function App() {
 
                     <div className="galleryRow">
                         <div className="shopImage">
-                            <img src={heroImage} alt="Waiting area" />
+                            <img src={waitingAreaImage} alt="Waiting area" />
                         </div>
 
                         <div className="shopImage">
-                            <img src={barberStationsImage} alt="Main barber stations" />
+                            <img src={heroImage} alt="Main barber stations" />
                         </div>
 
                         <div className="shopImage">
@@ -126,7 +132,7 @@ function App() {
                 </div>
             </section>
 
-            <section id="booking" className="bookingStrip">
+            <section className="bookingStrip">
                 <div className="bookingTitle">
                     <p>Ready for your best look?</p>
                     <h3>
@@ -148,12 +154,16 @@ function App() {
                 </div>
 
                 <div className="bookBox">
-                    <button className="goldBtn">Book Appointment <b>→</b></button>
+                    <a className="goldBtn" href="#booking">
+                        Book Appointment <b>→</b>
+                    </a>
                     <small>Walk-ins welcome.</small>
                 </div>
             </section>
 
-            <section className="smartStrip">
+            <BookingForm />
+
+            <section id="about" className="smartStrip">
                 <div>
                     <span>☏</span>
                     <div>
@@ -184,7 +194,7 @@ function App() {
                     <a href="#home">Home</a>
                     <a href="#services">Services</a>
                     <a href="#gallery">Gallery</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#booking">Booking</a>
                 </nav>
 
                 <p>© 2026 Master Sharli Barber Shop. All rights reserved.</p>
