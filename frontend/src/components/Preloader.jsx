@@ -1,21 +1,36 @@
-const logoImage = new URL('../assets/logo/master-sharli-logo.png', import.meta.url).href
+const bladesImage = new URL('../assets/logo/blades.png', import.meta.url).href
+const skullImage = new URL('../assets/logo/skull.png', import.meta.url).href
+const textImage = new URL('../assets/logo/master-sharli-text.png', import.meta.url).href
 
 function Preloader({ isLeaving }) {
     return (
         <div className={`preloader ${isLeaving ? 'preloaderLeaving' : ''}`}>
             <div className="preloaderGlow" />
+            <div className="preloaderSmoke smokeOne" />
+            <div className="preloaderSmoke smokeTwo" />
 
-            <div className="preloaderLogoWrap">
-                <div className="bladeLine" />
+            <div className="preloaderStage">
+                <div className="goldCircle" />
 
                 <img
-                    className="preloaderLogo"
-                    src={logoImage}
-                    alt="Master Sharli Barber Shop logo"
+                    className="preloaderBlades"
+                    src={bladesImage}
+                    alt=""
                 />
 
-                <h1>Master Sharli</h1>
-                <p>Barber Shop</p>
+                <img
+                    className="preloaderSkull"
+                    src={skullImage}
+                    alt="Master Sharli skull logo"
+                />
+
+                <div className="preloaderShine" />
+
+                <img
+                    className="preloaderTextLogo"
+                    src={textImage}
+                    alt="Master Sharli"
+                />
 
                 <div className="loadingTrack">
                     <div className="loadingFill" />

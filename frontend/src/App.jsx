@@ -41,11 +41,11 @@ function App() {
     useEffect(() => {
         const leaveTimer = setTimeout(() => {
             setIsLeaving(true)
-        }, 2200)
+        }, 3600)
 
         const removeTimer = setTimeout(() => {
             setShowPreloader(false)
-        }, 2900)
+        }, 4350)
 
         return () => {
             clearTimeout(leaveTimer)
