@@ -607,6 +607,15 @@ a {
   line-height: 1.6;
 }
 
+.errorMessage {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 80, 80, 0.35);
+  background: rgba(255, 80, 80, 0.08);
+  color: #ffd1d1;
+  line-height: 1.6;
+}
+
 /* SMART + FOOTER */
 
 .smartStrip {
@@ -665,6 +674,247 @@ a {
 .footer p {
   color: var(--muted);
   font-size: 12px;
+}
+
+/* PREMIUM PRELOADER */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background:
+          radial-gradient(circle at center, rgba(196, 147, 70, 0.2), transparent 30%),
+          linear-gradient(135deg, #020202 0%, #080808 55%, #130d06 100%);
+  overflow: hidden;
+}
+
+.preloader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+          repeating-linear-gradient(
+                  90deg,
+                  rgba(255, 255, 255, 0.025) 0 1px,
+                  transparent 1px 90px
+          ),
+          repeating-linear-gradient(
+                  0deg,
+                  rgba(255, 255, 255, 0.015) 0 1px,
+                  transparent 1px 90px
+          );
+  opacity: 0.45;
+}
+
+.preloader::after {
+  content: "";
+  position: absolute;
+  width: 680px;
+  height: 680px;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 147, 70, 0.18);
+  box-shadow:
+          0 0 80px rgba(196, 147, 70, 0.12),
+          inset 0 0 80px rgba(196, 147, 70, 0.08);
+  animation: preloaderRing 2.8s ease-in-out infinite;
+}
+
+.preloaderGlow {
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: rgba(196, 147, 70, 0.18);
+  filter: blur(70px);
+  animation: glowPulse 2.2s ease-in-out infinite;
+}
+
+.preloaderLogoWrap {
+  position: relative;
+  z-index: 3;
+  width: min(440px, 84vw);
+  padding: 42px 32px 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(196, 147, 70, 0.4);
+  background:
+          linear-gradient(145deg, rgba(196, 147, 70, 0.12), transparent 42%),
+          rgba(5, 5, 5, 0.84);
+  box-shadow:
+          0 40px 120px rgba(0, 0, 0, 0.8),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  animation: logoReveal 1s ease forwards;
+}
+
+.preloaderLogoWrap::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(196, 147, 70, 0.14);
+  pointer-events: none;
+}
+
+.preloaderLogo {
+  width: min(250px, 62vw);
+  max-height: 250px;
+  object-fit: contain;
+  filter:
+          drop-shadow(0 20px 34px rgba(0, 0, 0, 0.95))
+          drop-shadow(0 0 24px rgba(196, 147, 70, 0.25));
+  animation: logoFloat 2.4s ease-in-out infinite;
+}
+
+.bladeLine {
+  position: absolute;
+  top: -20%;
+  left: -85%;
+  width: 62%;
+  height: 140%;
+  background: linear-gradient(
+          110deg,
+          transparent,
+          rgba(255, 232, 178, 0.05),
+          rgba(225, 188, 117, 0.65),
+          rgba(255, 255, 255, 0.25),
+          transparent
+  );
+  transform: skewX(-18deg);
+  animation: bladeShine 1.65s ease-in-out 0.55s forwards;
+}
+
+.preloaderLogoWrap h1 {
+  margin: 26px 0 6px;
+  color: #ffffff;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1;
+}
+
+.preloaderLogoWrap p {
+  margin: 0 0 26px;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: 9px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.loadingTrack {
+  width: min(300px, 70vw);
+  height: 3px;
+  background: rgba(245, 240, 233, 0.13);
+  overflow: hidden;
+  border-radius: 99px;
+}
+
+.loadingFill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #8f5d22, #e8bd72, #fff0bd);
+  transform-origin: left;
+  animation: loadingFill 2.1s ease forwards;
+}
+
+.loadingText {
+  margin-top: 18px;
+  color: rgba(245, 240, 233, 0.62);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.preloaderLeaving {
+  animation: preloaderExit 0.75s ease forwards;
+}
+
+@keyframes logoReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.86) translateY(18px);
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.015);
+  }
+}
+
+@keyframes bladeShine {
+  from {
+    left: -85%;
+  }
+
+  to {
+    left: 130%;
+  }
+}
+
+@keyframes loadingFill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 0.95;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes preloaderRing {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: scale(1.04);
+    opacity: 0.75;
+  }
+}
+
+@keyframes preloaderExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
 }
 
 /* RESPONSIVE */
@@ -738,5 +988,24 @@ a {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+  }
+
+  .preloaderLogoWrap {
+    width: min(360px, 88vw);
+    padding: 34px 24px 30px;
+  }
+
+  .preloaderLogo {
+    width: min(210px, 58vw);
+    max-height: 210px;
+  }
+
+  .preloaderLogoWrap h1 {
+    letter-spacing: 5px;
+    font-size: clamp(30px, 10vw, 44px);
+  }
+
+  .preloaderLogoWrap p {
+    letter-spacing: 7px;
   }
 }
