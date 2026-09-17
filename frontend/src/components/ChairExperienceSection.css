@@ -1,0 +1,380 @@
+.chairExperienceSection {
+    --chair-progress: 0;
+    position: relative;
+    height: 470vh;
+    background: #080706;
+    isolation: isolate;
+}
+
+.stickyChairScene {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-height: 720px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background:
+            radial-gradient(circle at 50% 38%, rgba(196, 147, 70, 0.2), transparent 34%),
+            linear-gradient(180deg, #050504 0%, #11100e 48%, #050504 100%);
+}
+
+.styleImageStack {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: #080706;
+}
+
+.styleImageStack::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    z-index: 0;
+    background-image: var(--active-style-image, url("../assets/shop/empty-chair-scroll.png"));
+    background-size: cover;
+    background-position: center;
+    opacity: 0.34;
+    filter: blur(22px) saturate(1.08) brightness(0.64);
+    transform: scale(1.08);
+}
+
+.styleImageStack img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+}
+
+.emptyChairImage {
+    opacity: 1;
+    filter: saturate(1.05) contrast(1.06) brightness(0.88);
+    transform:
+            scale(calc(0.98 + var(--chair-progress) * 0.015))
+            translateY(calc(var(--chair-progress) * -0.5vh));
+}
+
+.chairExperienceSection.hasActiveModel .emptyChairImage {
+    opacity: 0.08;
+}
+
+.modelPoster {
+    opacity: 0;
+    filter: saturate(1.08) contrast(1.08) brightness(0.98);
+    transform: scale(0.985);
+    transition:
+            opacity 420ms ease-in-out,
+            transform 900ms ease-out,
+            filter 420ms ease-in-out;
+}
+
+.modelPoster.isActive {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.styleSceneOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+            linear-gradient(90deg, rgba(5, 5, 5, 0.82), rgba(5, 5, 5, 0.22) 42%, rgba(5, 5, 5, 0.68)),
+            linear-gradient(180deg, rgba(5, 5, 5, 0.5), transparent 24%, transparent 66%, rgba(5, 5, 5, 0.76));
+}
+
+.styleSceneCopy {
+    position: absolute;
+    left: clamp(28px, 7vw, 110px);
+    top: 50%;
+    z-index: 3;
+    width: min(440px, calc(100% - 56px));
+    color: #f5efe4;
+    transform:
+            translateY(calc(-50% + (0.5 - var(--chair-progress)) * 44px))
+            translateZ(0);
+    transition:
+            opacity 320ms ease,
+            transform 320ms ease;
+}
+
+.chairExperienceSection.hasActiveModel .styleSceneCopy {
+    opacity: 0;
+}
+
+.styleSceneCopy .miniLabel,
+.styleSwiperHeader .miniLabel {
+    color: var(--gold-light);
+}
+
+.styleSceneCopy h2 {
+    margin: 0;
+    color: #fff8eb;
+    font-family: Georgia, "Times New Roman", serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: clamp(34px, 4.2vw, 62px);
+    line-height: 1.02;
+    text-shadow: 0 16px 44px rgba(0, 0, 0, 0.72);
+}
+
+.styleSceneCopy p:last-child {
+    margin: 18px 0 0;
+    color: rgba(255, 248, 235, 0.78);
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+.styleSceneStatus {
+    position: absolute;
+    right: clamp(24px, 6vw, 96px);
+    bottom: clamp(28px, 8vh, 92px);
+    z-index: 3;
+    width: min(420px, calc(100% - 48px));
+    padding: 20px 24px;
+    border-left: 2px solid var(--gold);
+    background: linear-gradient(90deg, rgba(8, 7, 6, 0.72), rgba(8, 7, 6, 0.22));
+    backdrop-filter: blur(10px);
+    transition: opacity 320ms ease;
+}
+
+.chairExperienceSection.hasActiveModel .styleSceneStatus {
+    opacity: 0;
+}
+
+.styleSceneStatus span {
+    display: block;
+    color: #d9b56b;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: clamp(24px, 4vw, 56px);
+    font-weight: 900;
+    line-height: 0.95;
+}
+
+.styleSceneStatus p {
+    margin: 12px 0 0;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+.styleSwiperWrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    padding: 78px 0 92px;
+    background:
+            radial-gradient(circle at 22% 20%, rgba(196, 147, 70, 0.18), transparent 28%),
+            linear-gradient(180deg, rgba(8, 7, 6, 0.92), #080706 42%);
+}
+
+.styleSwiperHeader {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto 26px;
+    color: #fff8eb;
+}
+
+.styleSwiperHeader h3 {
+    margin: 0;
+    color: #fff8eb;
+    font-family: Georgia, "Times New Roman", serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: clamp(28px, 4vw, 56px);
+}
+
+.premiumSwiper {
+    width: 100%;
+    padding: 0 6.2vw 20px;
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 6.2vw;
+    -webkit-overflow-scrolling: touch;
+}
+
+.premiumSwiper::after {
+    content: "";
+    flex: 0 0 6.2vw;
+}
+
+
+.premiumSlide {
+    flex: 0 0 clamp(300px, 28vw, 390px);
+    min-height: 520px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(196, 147, 70, 0.42);
+    background:
+            radial-gradient(circle at center, rgba(196, 147, 70, 0.12), transparent 48%),
+            #0d0b09;
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42);
+    scroll-snap-align: center;
+}
+
+.premiumSlide:first-child {
+    scroll-snap-align: start;
+}
+
+.premiumSlide:last-of-type {
+    scroll-snap-align: end;
+}
+
+
+.premiumSlide img {
+    width: 100%;
+    height: 100%;
+    min-height: 520px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    opacity: 0.94;
+    filter: saturate(1.04) contrast(1.04);
+}
+
+.premiumSlide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+            linear-gradient(180deg, rgba(5, 5, 5, 0.08), transparent 26%, rgba(5, 5, 5, 0.18) 100%);
+}
+
+.premiumSlide div {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2;
+    display: none;
+}
+
+.premiumSlide span {
+    display: block;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.premiumSlide p {
+    margin: 12px 0 0;
+    color: rgba(245, 240, 233, 0.86);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.premiumSwiper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.premiumSwiper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.premiumSwiper::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #9a6a2b, #d4a04c);
+}
+
+@media (max-width: 900px) {
+    .chairExperienceSection {
+        height: 450vh;
+    }
+
+    .stickyChairScene {
+        min-height: 680px;
+    }
+
+    .styleImageStack img {
+        object-position: center center;
+    }
+
+    .emptyChairImage {
+        object-position: center center;
+    }
+
+    .styleSceneOverlay {
+        background:
+                linear-gradient(180deg, rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.18) 34%, rgba(5, 5, 5, 0.1) 56%, rgba(5, 5, 5, 0.82)),
+                linear-gradient(90deg, rgba(5, 5, 5, 0.62), transparent 48%, rgba(5, 5, 5, 0.5));
+    }
+
+    .styleSceneCopy {
+        left: 24px;
+        top: 92px;
+        transform: translateY(calc((0.5 - var(--chair-progress)) * 26px));
+    }
+
+    .styleSceneCopy h2 {
+        font-size: clamp(30px, 9vw, 42px);
+        max-width: 330px;
+    }
+
+    .styleSceneCopy p:last-child {
+        max-width: 320px;
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .styleSceneStatus {
+        left: 24px;
+        right: 24px;
+        bottom: 30px;
+        width: auto;
+        padding: 16px 18px;
+    }
+
+    .styleSceneStatus span {
+        font-size: clamp(24px, 9vw, 38px);
+        letter-spacing: 3px;
+    }
+
+    .styleSwiperWrap {
+        padding: 58px 0 76px;
+    }
+
+    .styleSwiperHeader {
+        width: calc(100% - 36px);
+    }
+
+    .premiumSwiper {
+        padding: 0 18px 16px;
+        gap: 14px;
+        scroll-padding-inline: 18px;
+    }
+
+    .premiumSwiper::after {
+        flex-basis: 18px;
+    }
+
+    .premiumSlide {
+        flex-basis: min(78vw, 320px);
+        min-height: 430px;
+    }
+
+    .premiumSlide img {
+        min-height: 430px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .emptyChairImage,
+    .styleSceneCopy,
+    .modelPoster {
+        transform: none;
+        transition: none;
+    }
+}

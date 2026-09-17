@@ -1,0 +1,599 @@
+.barberPoleSection {
+    --scroll-progress: 0;
+    position: relative;
+    overflow: hidden;
+    padding: 92px 6.2vw;
+    background:
+            radial-gradient(circle at 14% 42%, rgba(42, 96, 255, 0.11), transparent 20%),
+            radial-gradient(circle at 17% 58%, rgba(255, 35, 76, 0.09), transparent 22%),
+            radial-gradient(circle at 72% 24%, rgba(196, 147, 70, 0.2), transparent 30%),
+            linear-gradient(135deg, #fbf7f0 0%, #efe3d1 52%, #f7f1e8 100%);
+    border-bottom: 1px solid var(--line-light);
+    isolation: isolate;
+}
+
+.barberPoleSection::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+            repeating-linear-gradient(
+                    90deg,
+                    rgba(102, 78, 42, 0.055) 0 1px,
+                    transparent 1px 112px
+            );
+    opacity: 0.42;
+}
+
+.barberPoleSection::after {
+    content: "";
+    position: absolute;
+    left: 7.4vw;
+    top: 50%;
+    z-index: -1;
+    width: 380px;
+    height: 380px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    border: 1px solid rgba(102, 78, 42, 0.14);
+    box-shadow:
+            0 0 90px rgba(196, 147, 70, 0.08),
+            inset 0 0 80px rgba(196, 147, 70, 0.045);
+}
+
+.poleContent {
+    position: relative;
+    z-index: 5;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(210px, 280px) minmax(0, 1fr);
+    grid-template-areas:
+            "intro intro"
+            "pole services";
+    align-items: stretch;
+    column-gap: clamp(42px, 7vw, 94px);
+    row-gap: 38px;
+}
+
+.poleStage {
+    grid-area: pole;
+    position: relative;
+    min-height: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(calc((var(--scroll-progress, 0) - 0.5) * 34px));
+    will-change: transform;
+}
+
+.poleStage::before {
+    content: "";
+    position: absolute;
+    width: 210px;
+    height: min(100%, 760px);
+    border-radius: 999px;
+    background:
+            radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.16), transparent 20%),
+            linear-gradient(180deg, rgba(196, 147, 70, 0.12), transparent 55%);
+    filter: blur(16px);
+    opacity: 0.65;
+}
+
+.barberPole {
+    position: relative;
+    width: 112px;
+    height: min(100%, 740px);
+    min-height: 560px;
+    border-radius: 90px;
+    overflow: hidden;
+    background: #101010;
+    border: 2px solid rgba(255, 255, 255, 0.24);
+    box-shadow:
+            0 0 30px rgba(42, 96, 255, 0.42),
+            0 0 58px rgba(255, 35, 76, 0.25),
+            0 0 90px rgba(196, 147, 70, 0.14),
+            0 34px 76px rgba(0, 0, 0, 0.74);
+}
+
+.barberPole::before {
+    content: "";
+    position: absolute;
+    inset: -130px;
+    background: repeating-linear-gradient(
+            -28deg,
+            #ffffff 0px,
+            #ffffff 19px,
+            #1f72ff 19px,
+            #1f72ff 42px,
+            #ffffff 42px,
+            #ffffff 57px,
+            #ff2558 57px,
+            #ff2558 80px
+    );
+    animation: poleSpin 2.25s linear infinite;
+    filter: saturate(1.22) brightness(1.12);
+    will-change: transform;
+}
+
+.barberPole::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+            linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.48),
+                    rgba(255, 255, 255, 0.14) 12%,
+                    transparent 28%,
+                    transparent 65%,
+                    rgba(0, 0, 0, 0.6)
+            ),
+            radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.44), transparent 34%);
+    mix-blend-mode: screen;
+}
+
+.poleGlass {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    background:
+            linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.28),
+                    transparent 17%,
+                    transparent 76%,
+                    rgba(255, 255, 255, 0.16)
+            );
+}
+
+.poleLight {
+    position: absolute;
+    inset: -38px;
+    z-index: 2;
+    background:
+            radial-gradient(circle at 50% 16%, rgba(255, 255, 255, 0.5), transparent 18%),
+            radial-gradient(circle at 50% 48%, rgba(42, 96, 255, 0.26), transparent 40%),
+            radial-gradient(circle at 50% 84%, rgba(255, 35, 76, 0.26), transparent 40%);
+    animation: poleGlowPulse 2.6s ease-in-out infinite alternate;
+}
+
+.poleCap {
+    position: absolute;
+    left: 50%;
+    z-index: 6;
+    width: 150px;
+    height: 29px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: linear-gradient(135deg, #2a2927, #fff7e8 45%, #6f6a60);
+    box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.6),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+.poleCapTop {
+    top: -4px;
+}
+
+.poleCapBottom {
+    bottom: -4px;
+}
+
+.servicesPanel {
+    grid-area: services;
+    position: relative;
+    min-width: 0;
+}
+
+.servicesIntro {
+    grid-area: intro;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.servicesIntro h2 {
+    margin: 0;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: clamp(32px, 4.4vw, 62px);
+    line-height: 1.04;
+    text-shadow:
+            0 12px 36px rgba(57, 43, 27, 0.14),
+            0 0 18px rgba(196, 147, 70, 0.08);
+}
+
+.servicesIntro > p:last-child {
+    max-width: 620px;
+    margin: 18px auto 0;
+    color: var(--ink-muted);
+    font-size: 17px;
+    line-height: 1.75;
+}
+
+.servicesGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.serviceCard:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
+.serviceCard {
+    min-height: 108px;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    align-items: start;
+    gap: 13px;
+    padding: 14px;
+    border: 1px solid rgba(102, 78, 42, 0.18);
+    background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.34)),
+            radial-gradient(circle at top left, rgba(196, 147, 70, 0.13), transparent 56%);
+    box-shadow: 0 20px 48px rgba(57, 43, 27, 0.1);
+}
+
+.serviceCard h3 {
+    margin: 0 0 7px;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 2.4px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.serviceCard p {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.serviceIconMark {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(17, 15, 12, 0.18);
+    background: #ffffff;
+    box-shadow:
+            inset 0 0 0 1px rgba(196, 147, 70, 0.08),
+            0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.serviceIconMark::before,
+.serviceIconMark::after,
+.serviceIconMark span {
+    content: "";
+    position: absolute;
+    display: block;
+    border-color: #111111;
+}
+
+.serviceIconMark img {
+    position: relative;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0) contrast(1.2);
+    opacity: 0.92;
+}
+
+.serviceIcon-machine img,
+.serviceIcon-care img,
+.serviceIcon-scissors img {
+    width: 41px;
+    height: 41px;
+}
+
+.serviceIcon-scissors img {
+    width: 44px;
+    height: 44px;
+}
+
+.serviceIcon-machine img {
+    width: 50px;
+    height: 50px;
+    filter: none;
+    opacity: 1;
+}
+
+.serviceIconMark:has(img)::before,
+.serviceIconMark:has(img)::after,
+.serviceIconMark:has(img) span {
+    display: none;
+}
+
+.serviceIcon-cut::before,
+.serviceIcon-cut::after {
+    width: 24px;
+    height: 2px;
+    top: 23px;
+    left: 11px;
+    background: #111111;
+}
+
+.serviceIcon-cut::before {
+    transform: rotate(35deg);
+}
+
+.serviceIcon-cut::after {
+    transform: rotate(-35deg);
+}
+
+.serviceIcon-cut span {
+    width: 7px;
+    height: 7px;
+    border: 2px solid #111111;
+    border-radius: 50%;
+    left: 8px;
+    bottom: 9px;
+    box-shadow: 23px -15px 0 -2px #ffffff, 23px -15px 0 0 #111111;
+}
+
+.serviceIcon-beard::before {
+    width: 28px;
+    height: 24px;
+    border: 2px solid #111111;
+    border-top: 0;
+    border-radius: 0 0 18px 18px;
+    top: 20px;
+    left: 15px;
+}
+
+.serviceIcon-beard::after {
+    width: 22px;
+    height: 8px;
+    border-top: 2px solid #111111;
+    border-radius: 50%;
+    top: 18px;
+    left: 18px;
+}
+
+.serviceIcon-razor::before {
+    width: 30px;
+    height: 12px;
+    border: 2px solid #111111;
+    transform: rotate(-22deg);
+}
+
+.serviceIcon-razor::after {
+    width: 19px;
+    height: 2px;
+    background: #111111;
+    right: 12px;
+    bottom: 15px;
+    transform: rotate(48deg);
+}
+
+.serviceIcon-care::before {
+    width: 22px;
+    height: 30px;
+    border: 2px solid #111111;
+    border-radius: 18px 18px 18px 4px;
+    transform: rotate(38deg);
+}
+
+.serviceIcon-care::after {
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #111111;
+    border-left: 2px solid #111111;
+    top: 23px;
+    left: 25px;
+    transform: rotate(32deg);
+}
+
+.serviceIcon-style::before {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #111111;
+    transform: rotate(45deg);
+}
+
+.serviceIcon-style::after {
+    width: 34px;
+    height: 2px;
+    background: #111111;
+    transform: rotate(-20deg);
+}
+
+.serviceIcon-premium::before {
+    width: 26px;
+    height: 26px;
+    background: #111111;
+    clip-path: polygon(50% 0%, 61% 34%, 98% 35%, 68% 56%, 79% 91%, 50% 70%, 21% 91%, 32% 56%, 2% 35%, 39% 34%);
+}
+
+.serviceIcon-premium::after {
+    display: none;
+}
+
+.poleMarquee {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.poleMarqueeTop {
+    top: 14%;
+}
+
+.poleMarqueeBottom {
+    bottom: 8%;
+}
+
+.poleMarquee div {
+    display: flex;
+    gap: 60px;
+    width: max-content;
+    will-change: transform;
+}
+
+.poleMarquee span {
+    color: rgba(21, 18, 14, 0.045);
+    font-family: Impact, "Arial Narrow", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: clamp(42px, 6.5vw, 96px);
+}
+
+.poleMarqueeTop div {
+    transform: translateX(calc(var(--scroll-progress, 0) * -210px));
+}
+
+.poleMarqueeBottom div {
+    transform: translateX(calc(var(--scroll-progress, 0) * 180px - 260px));
+}
+
+@keyframes poleSpin {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(90.61px);
+    }
+}
+
+@keyframes poleGlowPulse {
+    from {
+        opacity: 0.5;
+    }
+
+    to {
+        opacity: 0.96;
+    }
+}
+
+@media (max-width: 900px) {
+    .barberPoleSection {
+        padding: 74px 18px;
+    }
+
+    .barberPoleSection::after {
+        left: -120px;
+        width: 320px;
+        height: 320px;
+    }
+
+    .poleContent {
+        grid-template-columns: 82px minmax(0, 1fr);
+        grid-template-areas:
+                "intro intro"
+                "pole services";
+        align-items: stretch;
+        column-gap: 16px;
+        row-gap: 26px;
+    }
+
+    .poleStage {
+        position: relative;
+        top: auto;
+        align-self: stretch;
+        min-height: calc(100vh - 110px);
+        min-height: 0;
+        height: 100%;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .poleStage::before {
+        width: 126px;
+        height: calc(100% - 28px);
+        opacity: 0.48;
+    }
+
+    .barberPole {
+        width: 70px;
+        height: calc(100% - 28px);
+        min-height: 0;
+    }
+
+    .poleCap {
+        width: 104px;
+        height: 24px;
+    }
+
+    .servicesIntro {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .servicesIntro h2 {
+        font-size: clamp(26px, 8.6vw, 40px);
+        letter-spacing: 1.2px;
+    }
+
+    .servicesIntro > p:last-child {
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .servicesGrid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .serviceCard:last-child:nth-child(odd) {
+        grid-column: auto;
+    }
+
+    .serviceCard {
+        min-height: 104px;
+        grid-template-columns: 54px minmax(0, 1fr);
+        gap: 12px;
+        padding: 13px;
+    }
+
+    .serviceIconMark {
+        width: 50px;
+        height: 50px;
+    }
+
+    .serviceIconMark img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .serviceIcon-machine img,
+    .serviceIcon-care img,
+    .serviceIcon-scissors img {
+        width: 39px;
+        height: 39px;
+    }
+
+    .serviceIcon-machine img {
+        width: 46px;
+        height: 46px;
+        filter: none;
+        opacity: 1;
+    }
+
+    .serviceCard h3 {
+        font-size: 12px;
+        letter-spacing: 1.8px;
+    }
+
+    .serviceCard p {
+        font-size: 12px;
+        line-height: 1.55;
+    }
+}

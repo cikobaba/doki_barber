@@ -11,11 +11,11 @@ const initialFormData = {
 }
 
 const serviceOptions = [
-    'Haircut',
-    'Beard Grooming',
-    'Classic Shave',
-    'Hair Treatment',
-    'Premium Service'
+    'Saç Kesimi',
+    'Sakal Bakımı',
+    'Klasik Tıraş',
+    'Saç Bakımı',
+    'Premium Hizmet'
 ]
 
 const timeOptions = [
@@ -47,7 +47,7 @@ function BookingForm() {
         event.preventDefault()
         setIsSubmitted(true)
 
-        console.log('Appointment request:', formData)
+        console.log('Randevu talebi:', formData)
 
         setFormData(initialFormData)
     }
@@ -55,22 +55,22 @@ function BookingForm() {
     return (
         <section id="booking" className="bookingFormSection">
             <div className="bookingFormIntro">
-                <p className="miniLabel">Online appointment</p>
-                <h3>Book your visit</h3>
+                <p className="miniLabel">Online randevu</p>
+                <h3>Ziyaretini planla</h3>
                 <p>
-                    Choose your service, preferred date, and time. After booking, the system
-                    will later send a WhatsApp confirmation automatically.
+                    Hizmetini, tercih ettiğin günü ve saati seç. Randevu oluşturulduktan
+                    sonra sistem WhatsApp üzerinden otomatik onay gönderecek.
                 </p>
             </div>
 
             <form className="bookingForm" onSubmit={handleSubmit}>
                 <div className="formGrid">
                     <label>
-                        Full Name
+                        Ad Soyad
                         <input
                             type="text"
                             name="fullName"
-                            placeholder="Enter your full name"
+                            placeholder="Adını ve soyadını yaz"
                             value={formData.fullName}
                             onChange={handleChange}
                             required
@@ -78,11 +78,11 @@ function BookingForm() {
                     </label>
 
                     <label>
-                        Phone Number
+                        Telefon Numarası
                         <input
                             type="tel"
                             name="phone"
-                            placeholder="+371..."
+                            placeholder="+90..."
                             value={formData.phone}
                             onChange={handleChange}
                             required
@@ -90,25 +90,25 @@ function BookingForm() {
                     </label>
 
                     <label>
-                        Email
+                        E-posta
                         <input
                             type="email"
                             name="email"
-                            placeholder="example@email.com"
+                            placeholder="ornek@email.com"
                             value={formData.email}
                             onChange={handleChange}
                         />
                     </label>
 
                     <label>
-                        Service
+                        Hizmet
                         <select
                             name="service"
                             value={formData.service}
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select service</option>
+                            <option value="">Hizmet seç</option>
                             {serviceOptions.map((service) => (
                                 <option key={service} value={service}>
                                     {service}
@@ -118,7 +118,7 @@ function BookingForm() {
                     </label>
 
                     <label>
-                        Date
+                        Tarih
                         <input
                             type="date"
                             name="date"
@@ -129,14 +129,14 @@ function BookingForm() {
                     </label>
 
                     <label>
-                        Time
+                        Saat
                         <select
                             name="time"
                             value={formData.time}
                             onChange={handleChange}
                             required
                         >
-                            <option value="">Select time</option>
+                            <option value="">Saat seç</option>
                             {timeOptions.map((time) => (
                                 <option key={time} value={time}>
                                     {time}
@@ -147,10 +147,10 @@ function BookingForm() {
                 </div>
 
                 <label>
-                    Special Note
+                    Özel Not
                     <textarea
                         name="note"
-                        placeholder="Example: I want a skin fade haircut."
+                        placeholder="Örnek: Kısa ve net geçişli bir kesim istiyorum."
                         value={formData.note}
                         onChange={handleChange}
                         rows="4"
@@ -158,13 +158,13 @@ function BookingForm() {
                 </label>
 
                 <button className="goldBtn bookingSubmit" type="submit">
-                    Submit Appointment <b>→</b>
+                    Randevu Talebi Gönder <b>→</b>
                 </button>
 
                 {isSubmitted && (
                     <div className="successMessage">
-                        Your appointment request has been received. WhatsApp confirmation will
-                        be sent after the system integration is completed.
+                        Randevu talebin alındı. Sistem entegrasyonu tamamlandığında
+                        WhatsApp onayı otomatik olarak gönderilecek.
                     </div>
                 )}
             </form>

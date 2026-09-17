@@ -1,53 +1,57 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import MasterBarberSection from './components/MasterBarberSection'
 import Preloader from './components/Preloader'
 import BookingForm from './components/BookingForm'
-import heroImage from './assets/shop/barber-stations.jpeg'
-import waitingAreaImage from './assets/shop/waiting-area.jpeg'
-import singleChairImage from './assets/shop/single-chair.jpeg'
+import studioImage from './assets/shop/corlu-hair-studio.png'
+import brandLogo from './assets/logo/dogukan-dk-logo.png'
+import instagramLogo from './assets/logo/instagram-logo.png'
+import BarberPoleSection from './components/BarberPoleSection'
+import ChairExperienceSection from './components/ChairExperienceSection'
 
-const services = [
-    {
-        title: 'Haircut',
-        text: 'Tailored cuts to match your style.',
-        icon: '✂'
-    },
-    {
-        title: 'Beard Grooming',
-        text: 'Precision beard shaping & care.',
-        icon: '◼'
-    },
-    {
-        title: 'Shave',
-        text: 'Classic hot towel shave experience.',
-        icon: '▱'
-    },
-    {
-        title: 'Hair Treatments',
-        text: 'Deep conditioning & scalp care.',
-        icon: '▣'
-    },
-    {
-        title: 'Premium Service',
-        text: 'Top products. Expert barbers. Every time.',
-        icon: '☆'
+const shopAddress = 'Reşadiye, Şinasi Kurşun 1. Sk. 7B, 59850 Çorlu/Tekirdağ'
+const encodedShopAddress = encodeURIComponent(shopAddress)
+const shopMapEmbedUrl = `https://www.google.com/maps?q=${encodedShopAddress}&output=embed`
+const shopMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedShopAddress}`
+const instagramUrl = 'https://www.instagram.com/dogukankugumcu/'
+const phoneDisplay = '0 537 261 36 43'
+const phoneHref = 'tel:+905372613643'
+
+const resetToHome = () => {
+    if (typeof window === 'undefined') {
+        return
     }
-]
+
+    if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual'
+    }
+
+    if (window.location.hash) {
+        window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+}
 
 function App() {
     const [showPreloader, setShowPreloader] = useState(true)
     const [isLeaving, setIsLeaving] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     useEffect(() => {
+        resetToHome()
+        const frameId = window.requestAnimationFrame(resetToHome)
         const leaveTimer = setTimeout(() => {
             setIsLeaving(true)
-        }, 3600)
+        }, 1800)
 
         const removeTimer = setTimeout(() => {
             setShowPreloader(false)
-        }, 4350)
+            resetToHome()
+        }, 2350)
 
         return () => {
+            window.cancelAnimationFrame(frameId)
             clearTimeout(leaveTimer)
             clearTimeout(removeTimer)
         }
@@ -58,169 +62,188 @@ function App() {
             {showPreloader && <Preloader isLeaving={isLeaving} />}
 
             <main className="site">
-                <header className="topbar">
+                <header className={`topbar ${isMobileMenuOpen ? 'isMenuOpen' : ''}`}>
                     <div className="logoArea">
-                        <div className="logoMark">MS</div>
+                        <img className="brandLogo" src={brandLogo} alt="Doğukan Hair Men's Club logosu" />
                         <div>
-                            <h1>Master Sharli</h1>
-                            <span>Barber Shop</span>
+                            <h1>Doğukan</h1>
+                            <span>Hair Men's Club</span>
                         </div>
                     </div>
-
-                    <nav className="navMenu">
-                        <a href="#home" className="active">Home</a>
-                        <a href="#services">Services</a>
-                        <a href="#gallery">Gallery</a>
-                        <a href="#about">About</a>
-                        <a href="#contact">Contact</a>
+                    <button
+                        className="mobileMenuButton"
+                        type="button"
+                        aria-label={isMobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+                        aria-expanded={isMobileMenuOpen}
+                        aria-controls="site-navigation"
+                        onClick={() => setIsMobileMenuOpen((current) => !current)}
+                    >
+                        <span />
+                        <span />
+                        <span />
+                    </button>
+                    <nav id="site-navigation" className="navMenu" aria-label="Site bölümleri">
+                        <a href="#home" onClick={() => setIsMobileMenuOpen(false)}>Ana Sayfa</a>
+                        <a href="#chair-experience" onClick={() => setIsMobileMenuOpen(false)}>Stiller</a>
+                        <a href="#services" onClick={() => setIsMobileMenuOpen(false)}>Hizmetler</a>
+                        <a href="#gallery" onClick={() => setIsMobileMenuOpen(false)}>Salon</a>
+                        <a href="#booking" onClick={() => setIsMobileMenuOpen(false)}>Randevu</a>
+                        <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>İletişim</a>
                     </nav>
-
-                    <div className="navActions">
-                        <span className="socialIcon">◎</span>
-                        <span className="socialIcon">☏</span>
-                        <a className="navBookButton" href="#booking">Book Now</a>
-                    </div>
                 </header>
 
                 <section id="home" className="heroPanel">
-                    <img src={heroImage} alt="Master Sharli Barber Shop main stations" />
+                    <img
+                        src={studioImage}
+                        alt="Doğukan Hair Men's Club salon genel görünümü"
+                        className="heroImage"
+                    />
 
                     <div className="heroOverlay" />
 
                     <div className="heroContent">
                         <div className="lineTitle">
                             <span />
-                            <p>Precision cuts. Timeless style.</p>
+                            <p>Net kesim. Zamansız stil.</p>
                             <span />
                         </div>
 
                         <h2>
-                            Master Sharli <br />
-                            Barber Shop
+                            Doğukan Kuğumcu <br />
+                            Hair Men's Club
                         </h2>
 
                         <p className="heroSubtitle">
-                            Premium grooming for the modern man.
+                            Her saç, kafa anatomisine göre kesilir.
                         </p>
 
                         <div className="heroButtons">
                             <a className="goldBtn" href="#booking">
-                                Book Appointment <b>→</b>
+                                Randevu Al <b>→</b>
                             </a>
 
                             <a className="textBtn" href="#services">
-                                View Services <b>—</b>
+                                Hizmetleri Gör <b>—</b>
                             </a>
                         </div>
                     </div>
                 </section>
 
-                <section className="middleGrid">
-                    <div id="services" className="servicesBlock">
-                        <div className="blockHeader">
-                            <h3>Our Services</h3>
-                            <span />
-                        </div>
-
-                        <div className="servicesRow">
-                            {services.map((service) => (
-                                <article className="serviceItem" key={service.title}>
-                                    <div className="serviceIcon">{service.icon}</div>
-                                    <h4>{service.title}</h4>
-                                    <p>{service.text}</p>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div id="gallery" className="galleryBlock">
-                        <div className="blockHeader galleryHeader">
-                            <h3>Inside The Shop</h3>
-                            <a href="#gallery">View Gallery —</a>
-                        </div>
-
-                        <div className="galleryRow">
-                            <div className="shopImage">
-                                <img src={waitingAreaImage} alt="Waiting area" />
-                            </div>
-
-                            <div className="shopImage">
-                                <img src={heroImage} alt="Main barber stations" />
-                            </div>
-
-                            <div className="shopImage">
-                                <img src={singleChairImage} alt="Private barber chair" />
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <ChairExperienceSection />
+                <BarberPoleSection />
 
                 <section className="bookingStrip">
                     <div className="bookingTitle">
-                        <p>Ready for your best look?</p>
+                        <p>En iyi görünümüne hazır mısın?</p>
                         <h3>
-                            Book your appointment <br />
-                            today
+                            Randevunu bugün <br />
+                            oluştur
                         </h3>
                     </div>
 
-                    <div className="contactBox">
+                    <a className="contactBox" href={phoneHref} aria-label="Doğukan Hair Men's Club telefon numarasını ara">
                         <div className="contactIcon">☏</div>
-                        <span>Call Us</span>
-                        <p>+00 000 000 000</p>
-                    </div>
+                        <span>Bizi Ara</span>
+                        <p>{phoneDisplay}</p>
+                    </a>
 
-                    <div className="contactBox">
-                        <div className="contactIcon">◎</div>
+                    <a
+                        className="contactBox"
+                        href={instagramUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label="Doğukan Kuğumcu Instagram hesabını aç"
+                    >
+                        <div className="contactIcon contactIconImage">
+                            <img src={instagramLogo} alt="" />
+                        </div>
                         <span>Instagram</span>
-                        <p>@mastersharli</p>
-                    </div>
+                        <p>@dogukankugumcu</p>
+                    </a>
 
                     <div className="bookBox">
                         <a className="goldBtn" href="#booking">
-                            Book Appointment <b>→</b>
+                            Randevu Al <b>→</b>
                         </a>
-                        <small>Walk-ins welcome.</small>
+                        <small>Müsaitliğe göre randevusuz misafir kabul edilir.</small>
                     </div>
                 </section>
-
+                <MasterBarberSection />
                 <BookingForm />
+
+                <section id="contact" className="locationSection" aria-labelledby="location-title">
+                    <div className="locationCopy">
+                        <p className="miniLabel">Konum</p>
+                        <h3 id="location-title">Dükkana kolayca ulaş</h3>
+                        <p>
+                            Randevuna gelirken adresi Google Maps üzerinden açabilir,
+                            tek dokunuşla yol tarifi alabilirsin.
+                        </p>
+
+                        <address>{shopAddress}</address>
+
+                        <a
+                            className="goldBtn locationButton"
+                            href={shopMapUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Maps'te Aç <b>→</b>
+                        </a>
+                    </div>
+
+                    <div className="mapFrame">
+                        <iframe
+                            title="Doğukan Hair Men's Club konumu"
+                            src={shopMapEmbedUrl}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        />
+                        <a
+                            href={shopMapUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label="Doğukan Hair Men's Club konumunu Google Maps'te aç"
+                        />
+                    </div>
+                </section>
 
                 <section id="about" className="smartStrip">
                     <div>
                         <span>☏</span>
                         <div>
-                            <h4>Instant WhatsApp Confirmation</h4>
-                            <p>Get real-time booking confirmation and reminders.</p>
+                            <h4>Anında WhatsApp Onayı</h4>
+                            <p>Randevu onayı ve hatırlatmaları hızlıca al.</p>
                         </div>
                     </div>
 
                     <div>
                         <span>✦</span>
                         <div>
-                            <h4>AI-Assisted Scheduling</h4>
-                            <p>Smart availability matched to your preferred time.</p>
+                            <h4>Akıllı Randevu Planlama</h4>
+                            <p>Tercih ettiğin saate uygun müsaitlik kolayca eşleştirilir.</p>
                         </div>
                     </div>
                 </section>
 
-                <footer id="contact" className="footer">
+                <footer className="footer">
                     <div className="logoArea">
-                        <div className="logoMark small">MS</div>
+                        <img className="brandLogo footerLogo" src={brandLogo} alt="Doğukan Hair Men's Club logosu" />
                         <div>
-                            <h1>Master Sharli</h1>
-                            <span>Barber Shop</span>
+                            <h1>Doğukan</h1>
+                            <span>Hair Men's Club</span>
                         </div>
                     </div>
 
                     <nav>
-                        <a href="#home">Home</a>
-                        <a href="#services">Services</a>
-                        <a href="#gallery">Gallery</a>
-                        <a href="#booking">Booking</a>
+                        <a href="#home" onClick={() => setIsMobileMenuOpen(false)}>Ana Sayfa</a>
+                        <a href="#services" onClick={() => setIsMobileMenuOpen(false)}>Hizmetler</a>
+                        <a href="#gallery">Salon</a>
+                        <a href="#booking" onClick={() => setIsMobileMenuOpen(false)}>Randevu</a>
+                        <a href="#contact">Konum</a>
                     </nav>
 
-                    <p>© 2026 Master Sharli Barber Shop. All rights reserved.</p>
+                    <p>© 2026 Doğukan Hair Men's Club. Tüm hakları saklıdır.</p>
                 </footer>
             </main>
         </>

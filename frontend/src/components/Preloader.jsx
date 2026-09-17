@@ -1,6 +1,4 @@
-const bladesImage = new URL('../assets/logo/blades.png', import.meta.url).href
-const skullImage = new URL('../assets/logo/skull.png', import.meta.url).href
-const textImage = new URL('../assets/logo/master-sharli-text.png', import.meta.url).href
+﻿const brandLogo = new URL('../assets/logo/dogukan-dk-logo.png', import.meta.url).href
 
 function Preloader({ isLeaving }) {
     return (
@@ -13,35 +11,29 @@ function Preloader({ isLeaving }) {
                 <div className="goldCircle" />
 
                 <img
-                    className="preloaderBlades"
-                    src={bladesImage}
-                    alt=""
-                />
-
-                <img
-                    className="preloaderSkull"
-                    src={skullImage}
-                    alt="Master Sharli skull logo"
+                    className="preloaderBrandLogo"
+                    src={brandLogo}
+                    alt="Doğukan Hair Men's Club logosu"
                 />
 
                 <div className="preloaderShine" />
 
-                <img
-                    className="preloaderTextLogo"
-                    src={textImage}
-                    alt="Master Sharli"
-                />
+                <div className="preloaderTextLogo" aria-label="Doğukan Hair Men's Club">
+                    <strong>Doğukan</strong>
+                    <span>Hair Men's Club</span>
+                </div>
 
                 <div className="loadingTrack">
                     <div className="loadingFill" />
                 </div>
 
                 <span className="loadingText">
-          Preparing your premium grooming experience
-        </span>
+                    Premium bakım deneyimin hazırlanıyor
+                </span>
             </div>
         </div>
     )
 }
 
 export default Preloader
+
