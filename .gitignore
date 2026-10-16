@@ -12,3 +12,5 @@
 *.log
 *.tmp
 secrets/
+output/
+.playwright-cli/
