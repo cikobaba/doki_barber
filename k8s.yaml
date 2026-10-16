@@ -1,4 +1,67 @@
-
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: barber-postgres-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barber-postgres
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: barber-postgres
+  template:
+    metadata:
+      labels:
+        app: barber-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17-alpine
+          envFrom:
+            - secretRef:
+                name: barber-db
+          ports:
+            - containerPort: 5432
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: '1', memory: 512Mi}
+          readinessProbe:
+            exec:
+              command: [sh, -c, 'pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"']
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command: [sh, -c, 'pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"']
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: barber-postgres-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: barber-postgres
+spec:
+  selector: {app: barber-postgres}
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,32 +69,56 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: barber-backend
+    matchLabels: {app: barber-backend}
   template:
     metadata:
-      labels:
-        app: barber-backend
+      labels: {app: barber-backend}
     spec:
       containers:
         - name: backend
-          image: doki_barber-backend:latest
-          imagePullPolicy: Never
+          image: ghcr.io/cikobaba/doki_barber-backend:dev
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
-
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: '1', memory: 768Mi}
+          startupProbe:
+            httpGet: {path: /actuator/health/liveness, port: 8080}
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet: {path: /actuator/health/readiness, port: 8080}
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /actuator/health/liveness, port: 8080}
+            periodSeconds: 10
+          env:
+            - name: DB_URL
+              value: jdbc:postgresql://barber-postgres:5432/barber
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef: {name: barber-db, key: POSTGRES_USER}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: barber-db, key: POSTGRES_PASSWORD}
+            - name: BOOKING_ZONE
+              value: Europe/Istanbul
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: barber-backend
 spec:
-  selector:
-    app: barber-backend
+  selector: {app: barber-backend}
   ports:
     - port: 8080
       targetPort: 8080
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -40,28 +127,42 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: barber-frontend
+    matchLabels: {app: barber-frontend}
   template:
     metadata:
-      labels:
-        app: barber-frontend
+      labels: {app: barber-frontend}
     spec:
       containers:
         - name: frontend
-          image: doki_barber-frontend:latest
-          imagePullPolicy: Never
+          image: ghcr.io/cikobaba/doki_barber-frontend:dev
+          imagePullPolicy: Always
           ports:
-            - containerPort: 80
-
+            - containerPort: 8080
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          resources:
+            requests: {cpu: 100m, memory: 32Mi}
+            limits: {cpu: '1', memory: 128Mi}
+          startupProbe:
+            httpGet: {path: /healthz, port: 8080}
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet: {path: /healthz, port: 8080}
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /healthz, port: 8080}
+            periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: barber-frontend
 spec:
-  selector:
-    app: barber-frontend
+  selector: {app: barber-frontend}
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 8080

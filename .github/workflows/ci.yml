@@ -17,6 +17,21 @@ jobs:
   backend:
     name: Backend - Test and Build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: barber_test
+          POSTGRES_USER: barber_test
+          POSTGRES_PASSWORD: ephemeral-ci-only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U barber_test -d barber_test"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      TEST_DB_URL: jdbc:postgresql://localhost:5432/barber_test
+      TEST_DB_USER: barber_test
+      TEST_DB_PASSWORD: ephemeral-ci-only
 
     defaults:
       run:
@@ -72,7 +87,7 @@ jobs:
         run: npm ci
 
       - name: Build frontend
-        run: npm run build
+        run: npm run lint && npm test && npm run build
 
       - name: Upload frontend artifact
         uses: actions/upload-artifact@v4
@@ -80,3 +95,54 @@ jobs:
           name: frontend-dist
           path: frontend/dist
           if-no-files-found: error
+
+  images:
+    name: Validate Docker images
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.component }}
+          push: false
+          cache-from: type=gha,scope=${{ matrix.component }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.component }}
+
+  publish:
+    name: Publish GHCR images
+    needs: [backend, frontend, images]
+    if: github.event_name == 'push' && github.repository == 'cikobaba/doki_barber'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        component: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ghcr.io/cikobaba/doki_barber-${{ matrix.component }}
+          tags: |
+            type=raw,value=sha-${{ github.sha }}
+            type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.component }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.component }}

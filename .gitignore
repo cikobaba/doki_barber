@@ -1,12 +1,14 @@
-# IntelliJ IDEA
-.idea/f r o n t e n d / . v i t e / 
- 
- . i d e a / 
- 
- . i d e a / 
- 
- .idea/
-frontend/.vite/
 .idea/
-frontend/.vite/
-barber-images.tar
+.vscode/
+**/node_modules/
+**/dist/
+**/target/
+**/.vite/
+.env
+.env.*
+!.env.example
+*.tar
+*.tar.gz
+*.log
+*.tmp
+secrets/
