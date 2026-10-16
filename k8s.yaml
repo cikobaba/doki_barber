@@ -1,0 +1,67 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barber-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barber-backend
+  template:
+    metadata:
+      labels:
+        app: barber-backend
+    spec:
+      containers:
+        - name: backend
+          image: doki_barber-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: barber-backend
+spec:
+  selector:
+    app: barber-backend
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barber-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barber-frontend
+  template:
+    metadata:
+      labels:
+        app: barber-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: doki_barber-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: barber-frontend
+spec:
+  selector:
+    app: barber-frontend
+  ports:
+    - port: 80
+      targetPort: 80
