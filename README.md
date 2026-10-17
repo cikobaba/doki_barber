@@ -89,4 +89,5 @@ BuildKit caches are scoped per component. Registry outages can still cause parti
 GHCR publishing is triggered after merge/push, not by local builds. Package visibility and Actions permissions may need repository-owner configuration.
 
 See [Kubernetes deployment](docs/KUBERNETES.md), [API](docs/API_DESIGN.md),
+[Prometheus monitoring](docs/MONITORING.md),
 [architecture](docs/SYSTEM_ARCHITECTURE.md), [database](docs/DATABASE_DESIGN.md), and [validation report](docs/VALIDATION.md).

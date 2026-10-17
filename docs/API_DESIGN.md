@@ -24,3 +24,6 @@ Do not add cookie-based privileged actions to this endpoint without revisiting C
 
 GET /actuator/health, /actuator/health/liveness, /actuator/health/readiness.
 Only status is exposed; readiness includes the database. Nginx exposes /healthz for its own probe.
+
+GET /actuator/prometheus exports internal HTTP/JVM metrics for Prometheus. It is not proxied by Nginx.
+See [monitoring setup and queries](MONITORING.md). Other Actuator endpoints remain denied.

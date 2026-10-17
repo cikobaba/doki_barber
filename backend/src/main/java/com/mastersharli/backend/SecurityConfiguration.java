@@ -21,6 +21,7 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/appointments").permitAll()
                 .requestMatchers(HttpMethod.GET, "/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness").permitAll()
+                .requestMatchers(HttpMethod.GET, "/actuator/prometheus").permitAll()
                 .anyRequest().denyAll())
             .exceptionHandling(errors -> errors.authenticationEntryPoint((request, response, ex) -> response.sendError(403)))
             .build();
