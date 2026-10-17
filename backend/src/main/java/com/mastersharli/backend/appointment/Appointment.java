@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "appointments")
+@Table(name = "appointments", uniqueConstraints = @UniqueConstraint(name = "uk_appointment_slot", columnNames = {"date", "time"}))
 public class Appointment {
 
     @Id
@@ -18,12 +18,15 @@ public class Appointment {
     private Long id;
 
     @NotBlank
+    @Column(length = 100, nullable = false)
     private String fullName;
 
     @NotBlank
+    @Column(length = 30, nullable = false)
     private String phone;
 
     @Email
+    @Column(length = 254)
     private String email;
 
     @NotBlank

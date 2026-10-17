@@ -212,8 +212,8 @@ function App() {
                     <div>
                         <span>☏</span>
                         <div>
-                            <h4>Anında WhatsApp Onayı</h4>
-                            <p>Randevu onayı ve hatırlatmaları hızlıca al.</p>
+                            <h4>Online Randevu Onayı</h4>
+                            <p>Randevun kaydedildiğinde onayını ekranda gör.</p>
                         </div>
                     </div>
 

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { submitBooking, shopToday } from '../booking.js'
 
 const initialFormData = {
     fullName: '',
@@ -33,6 +34,9 @@ const timeOptions = [
 function BookingForm() {
     const [formData, setFormData] = useState(initialFormData)
     const [isSubmitted, setIsSubmitted] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const submitting = useRef(false)
 
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -43,13 +47,23 @@ function BookingForm() {
         }))
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        setIsSubmitted(true)
-
-        console.log('Randevu talebi:', formData)
-
-        setFormData(initialFormData)
+        if (submitting.current) return
+        submitting.current = true
+        setIsLoading(true)
+        setIsSubmitted(false)
+        setError('')
+        try {
+            await submitBooking(formData)
+            setIsSubmitted(true)
+            setFormData(initialFormData)
+        } catch (failure) {
+            setError(failure.message)
+        } finally {
+            submitting.current = false
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -58,18 +72,19 @@ function BookingForm() {
                 <p className="miniLabel">Online randevu</p>
                 <h3>Ziyaretini planla</h3>
                 <p>
-                    Hizmetini, tercih ettiğin günü ve saati seç. Randevu oluşturulduktan
-                    sonra sistem WhatsApp üzerinden otomatik onay gönderecek.
+                    Hizmetini, tercih ettiğin günü ve saati seç. Saatler Türkiye saatidir.
+                    Randevun kaydedildiğinde onayı bu ekranda göreceksin.
                 </p>
             </div>
 
-            <form className="bookingForm" onSubmit={handleSubmit}>
+            <form className="bookingForm" onSubmit={handleSubmit} aria-busy={isLoading}>
                 <div className="formGrid">
                     <label>
                         Ad Soyad
                         <input
                             type="text"
                             name="fullName"
+                            maxLength={100}
                             placeholder="Adını ve soyadını yaz"
                             value={formData.fullName}
                             onChange={handleChange}
@@ -82,6 +97,8 @@ function BookingForm() {
                         <input
                             type="tel"
                             name="phone"
+                            maxLength={30}
+                            minLength={7}
                             placeholder="+90..."
                             value={formData.phone}
                             onChange={handleChange}
@@ -94,6 +111,7 @@ function BookingForm() {
                         <input
                             type="email"
                             name="email"
+                            maxLength={254}
                             placeholder="ornek@email.com"
                             value={formData.email}
                             onChange={handleChange}
@@ -122,6 +140,7 @@ function BookingForm() {
                         <input
                             type="date"
                             name="date"
+                            min={shopToday()}
                             value={formData.date}
                             onChange={handleChange}
                             required
@@ -150,6 +169,7 @@ function BookingForm() {
                     Özel Not
                     <textarea
                         name="note"
+                        maxLength={1000}
                         placeholder="Örnek: Kısa ve net geçişli bir kesim istiyorum."
                         value={formData.note}
                         onChange={handleChange}
@@ -157,14 +177,15 @@ function BookingForm() {
                     />
                 </label>
 
-                <button className="goldBtn bookingSubmit" type="submit">
-                    Randevu Talebi Gönder <b>→</b>
+                <button className="goldBtn bookingSubmit" type="submit" disabled={isLoading}>
+                    {isLoading ? 'Kaydediliyor…' : 'Randevu Talebi Gönder'} <b>→</b>
                 </button>
 
+                {error && <div className="successMessage" role="alert">{error}</div>}
+
                 {isSubmitted && (
-                    <div className="successMessage">
-                        Randevu talebin alındı. Sistem entegrasyonu tamamlandığında
-                        WhatsApp onayı otomatik olarak gönderilecek.
+                    <div className="successMessage" role="status">
+                        Randevun başarıyla kaydedildi. Görüşmek üzere!
                     </div>
                 )}
             </form>
